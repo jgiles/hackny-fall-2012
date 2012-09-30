@@ -24,3 +24,12 @@ $(function() {
 		return false;
 	});
 });
+
+function getData(url) {
+    alert(url);
+    alert(encodeURIComponent(url));
+    $.getJSON('/data/' + encodeURIComponent(url), function(data) {
+        alert(JSON.stringify(data));
+        return data;
+    });
+}
