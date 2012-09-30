@@ -3,6 +3,7 @@ from flask import Flask, Response, render_template
 from json import dumps
 from bitly.bitly_client import *
 from random import random
+from store import *
 
 app = Flask(__name__)
 
@@ -17,19 +18,27 @@ def data(memeurl):
     
     created = getBitlyCreated(rep['hash'], rep['short_url'])
     history = getURLClickHistory(rep['short_url'], unit='day', units=units)
-    referrals = getReferringDomains(rep['short_url'], unit='day', units=units)
-    return Response(dumps(referrals, indent=4), mimetype = 'application/json')
+    refs = getReferringDomains(rep['short_url'], unit='day', units=units)['data']['referring_domains']
+    top = 10
+    if len(refs) < top:
+        top = len(refs)
+    featured = {}
+    records = recall_records(memeurl)
+    for i in range(0, top):
+        ref = refs[i]
+        featured[ref['domain']] = records[ref['domain']]
+
     clicks = []
     time = []
-    z = []
     for clickdata in history['data']['link_clicks']:
         if clickdata['dt'] < created:
             continue
         clicks.append(clickdata['clicks'])
         time.append(clickdata['dt'])
-        z.append(clickdata['clicks']*(.8 + .4*random()))
-
-    return Response(dumps({'x':time.reverse(), 'y':clicks.reverse(), 'z':z.reverse(), 'created':created}), mimetype='application/json')
+        
+    time.reverse()
+    clicks.reverse()
+    return Response(dumps({'x':time, 'y':clicks, 'referrers':featured, 'created':created}), mimetype='application/json')
 
 if __name__ == '__main__':
     # Bind to PORT if defined, otherwise default to 5000.
