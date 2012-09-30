@@ -6,11 +6,11 @@ $(function() {
 		.bind('click', function() { // Highlight entire input
 			$(this).select();
 		});
-	
+
 	// Query
 	$('#queryForm').bind('submit', function() {
 		var query = $(this).find('.query').val();
-		
+
 		$.get('http://api.embed.ly/1/oembed?key=' + EMBED_KEY + '&url=' + query, function(data) {
 			if (data && data.thumbnail_url) {
 				$('body').css('background', '#424242 url(\'' + data.thumbnail_url + '\') repeat');
@@ -21,6 +21,7 @@ $(function() {
         getData(query,  function(data) {
             graph_lines(data.x, data.y);
             circles([]);
+            graph_lines(data);
             return data;
         });
 
@@ -32,7 +33,7 @@ function getData(url, fn) {
     $.getJSON('/data/' + encodeURIComponent(url), fn);
 }
 
-function graph_lines(x, y) {
+function graph_lines(data) {
 	var chart;
 	$(document).ready(function() {
 	    chart = new Highcharts.Chart({
@@ -49,17 +50,18 @@ function graph_lines(x, y) {
 	        },
 	        /* title: {
 	            text: 'Title',
+	            text: 'Total',
 	            x: -20 //center
 	        },
 	        subtitle: {
-	            text: 'Subtitle',
+	            text: 'Aggregate views',
 	            x: -20
 	        }, */
 	        xAxis: {
-	            categories: x,
 	            labels: {
 	            	enabled: false
-	            }
+	            },
+	            categories: data.x
 	        },
 	        yAxis: {
 	            title: {
@@ -91,8 +93,10 @@ function graph_lines(x, y) {
 	        }, */
 	        series: [{
 	            name: 'Domain 1',
-	            data: y
-	        }]
+				data: data.y
+			}, {name: 'Domain 2',
+				data: data.z
+			}]
 	    });
 	});
 }	

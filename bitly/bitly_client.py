@@ -129,7 +129,7 @@ def getReferrerSites(bitly_url, unit=None, units=None, limit=None, unit_referenc
 
 	connection.request("GET", "/v3/link/referrers?%s" % get_param_string)
 	response = connection.getresponse()
-	data = response.read()
+	data = json.loads(response.read())
 	return data
 
 # getReferringDomains: bitly_url --> dict of referring domains
@@ -155,7 +155,7 @@ def getReferringDomains(bitly_url, unit=None, units=None, limit=None, unit_refer
 
 	connection.request("GET", "/v3/link/referring_domains?%s" % get_param_string)
 	response = connection.getresponse()
-	data = response.read()
+	data = json.loads(response.read())
 	return data
 	
 	
