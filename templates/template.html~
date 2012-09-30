@@ -1,7 +1,0 @@
-<!doctype html>
-<title>MEME PATH</title>
-<link rel=stylesheet type=text/css href="{{url_for('static', filename='style.css') }}">
-<body>
-    <h1>MEME PATH</h1>
-    <div>Timeline</div>
-</body>
