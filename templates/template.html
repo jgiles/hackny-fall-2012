@@ -1,9 +1,10 @@
 <!doctype html>
 <title>MEME PATH</title>
 <head>
-  <link rel=stylesheet type=text/css href="{{url_for('static', filename='style.css') }}">  
-  <script src="//ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js"></script>
-  <script src="{{url_for('static', filename='global.js') }}"></script>
+  	<link rel=stylesheet type=text/css href="{{url_for('static', filename='style.css') }}">  
+  	<script src="http://code.jquery.com/jquery-1.7.2.min.js"></script>
+  	<script src="http://scripts.embed.ly/jquery.embedly.min.js"></script>
+  	<script src="{{url_for('static', filename='global.js') }}"></script>
 </head>
 <body>
 	<div class="top">
@@ -12,6 +13,10 @@
     		<input class="query rounded" type="text" name="query" />
     		<input class="hidden" type="submit" />
     	</form>
+    	<div id="embedWrapper">
+    		<div id="embedHtml"></div>
+	    	<img id="embedPic" />
+	    </div>
     </div>
     <div class="timeline shadow">
         <img class="slider" src="{{url_for('static', filename='timelineSlider.png') }}" />
