@@ -18,7 +18,7 @@ def data(memeurl):
     created = getBitlyCreated(rep['hash'], rep['short_url'])
     history = getURLClickHistory(rep['short_url'], unit='day', units=units)
     referrals = getReferringDomains(rep['short_url'], unit='day', units=units)
-    # return Response(dumps(referrals), mimetype = 'application/json')
+    return Response(dumps(referrals, indent=4), mimetype = 'application/json')
     clicks = []
     time = []
     z = []
