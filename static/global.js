@@ -45,10 +45,16 @@ $(function() {
 				}
 			}
 		});
+        
+        getData(query,  function(data) {
+            alert(JSON.stringify(data));
+            return data;
+        });
 		
 		return false;
 	});
 });
+
 
 
 function initBubbles() {
@@ -100,3 +106,8 @@ function initBubbles() {
 	  return {children: classes};
 	}
 }
+
+function getData(url, fn) {
+    $.getJSON('/data/' + encodeURIComponent(url), fn);
+}
+

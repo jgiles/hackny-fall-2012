@@ -1,6 +1,7 @@
 import os
 from flask import Flask, Response, render_template
 from json import dumps
+from bitly.bitly_client import *
 
 app = Flask(__name__)
 
@@ -10,7 +11,9 @@ def index():
 
 @app.route('/data/<path:memeurl>')
 def josh(memeurl):
-    return Response(dumps({'arg': memeurl}), mimetype='application/json')
+    shortlink = getBitlyShortURL(memeurl)
+    history = getURLClickHistory(shortlink, unit='day', units=7)
+    return Response(dumps(history), mimetype='application/json')
 
 if __name__ == '__main__':
     # Bind to PORT if defined, otherwise default to 5000.
