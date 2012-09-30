@@ -1,3 +1,5 @@
+from __future__ import division
+
 import os
 from flask import Flask, Response, render_template
 from json import dumps
@@ -35,9 +37,17 @@ def data(memeurl):
         top = len(refs)
     featured = {}
     records = recall_records(memeurl)
+    ceiling = 0
     for i in range(0, top):
         ref = refs[i]
         featured[ref['domain']] = records[ref['domain']][-len(clicks):]
+        m = max(featured[ref['domain']])
+        if m > ceiling:
+            ceiling = m
+        
+    for feat in featured:
+        for i in range(0, len(featured[feat])):
+            featured[feat][i] = featured[feat][i]/ceiling
 
     return Response(dumps({'x':time, 'y':clicks, 'referrers':featured, 'created':created}), mimetype='application/json')
 
