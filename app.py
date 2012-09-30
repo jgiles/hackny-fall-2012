@@ -36,23 +36,24 @@ def data(memeurl):
     if len(refs) < top:
         top = len(refs)
     featured = {}
-    records = recall_records(memeurl)
-    ceiling = 0
-    for i in range(0, top):
-        ref = refs[i]
-        try:
-            featured[ref['domain']] = records[ref['domain']][-len(clicks):]
-        except:
-            continue
-        
-    for feat in featured:
-        for i in range(0, len(featured[feat])):
+    try:
+        records = recall_records(memeurl)
+        for i in range(0, top):
+            ref = refs[i]
             try:
-                ratio = featured[feat][i]/clicks[i]
+                featured[ref['domain']] = records[ref['domain']][-len(clicks):]
             except:
-                ratio = 0
-            featured[feat][i] = ratio
-
+                continue
+        
+        for feat in featured:
+            for i in range(0, len(featured[feat])):
+                try:
+                    ratio = featured[feat][i]/clicks[i]
+                except:
+                    ratio = 0
+                featured[feat][i] = ratio
+    except:
+        featured = {}
     return Response(dumps({'x':time, 'y':clicks, 'referrers':featured, 'created':created}), mimetype='application/json')
 
 if __name__ == '__main__':
