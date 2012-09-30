@@ -13,7 +13,7 @@ $(function() {
 
 		$.get('http://api.embed.ly/1/oembed?key=' + EMBED_KEY + '&url=' + query, function(data) {
 			if (data && data.thumbnail_url) {
-				$('body').css('background', '#424242 url(\'' + data.thumbnail_url + '\') repeat');
+				$('#preview').css('background', '#424242 url(\'' + data.thumbnail_url + '\') repeat');
 
 			}
 		});
