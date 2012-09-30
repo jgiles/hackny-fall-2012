@@ -37,6 +37,10 @@ def data(memeurl):
         top = len(refs)
     featured = {}
     records = recall_records(memeurl)
+    ceiling = 0
+    for i in range(0, top):
+        ref = refs[i]
+        featured[ref['domain']] = records[ref['domain']][-len(clicks):]
         
     for feat in featured:
         for i in range(0, len(featured[feat])):
