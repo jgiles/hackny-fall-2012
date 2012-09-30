@@ -1,0 +1,8 @@
+$('.timeline li').bind('click', function() {
+   var el = $(this);
+   $('.timeline .slider').animate({
+	   top: el.position().top
+   }, 500, function() {
+      // Animation complete.
+   });
+});
