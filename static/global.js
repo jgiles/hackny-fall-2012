@@ -18,20 +18,69 @@ $(function() {
       		// Animation complete
  	  	});
 	});
-	
-	// Bubble visualization
-	initBubbles();
 
-	
+	var graph_lines = function(x, y) {
+		console.log(x);
+		console.log(y);
+		var chart;
+	    $(document).ready(function() {
+	        chart = new Highcharts.Chart({
+	            chart: {
+	                renderTo: 'container',
+	                type: 'line',
+	                marginRight: 130,
+	                marginBottom: 25
+	            },
+	            title: {
+	                text: 'Title',
+	                x: -20 //center
+	            },
+	            subtitle: {
+	                text: 'Subtitle',
+	                x: -20
+	            },
+	            xAxis: {
+	                categories: x
+	            },
+	            yAxis: {
+	                title: {
+	                    text: 'Temperature (°C)'
+	                },
+	                plotLines: [{
+	                    value: 0,
+	                    width: 1,
+	                    color: '#808080'
+	                }]
+	            },
+	            tooltip: {
+	                formatter: function() {
+	                        return '<b>'+ this.series.name +'</b><br/>'+
+	                        this.x +': '+ this.y +'°C';
+	                }
+	            },
+	            legend: {
+	                layout: 'vertical',
+	                align: 'right',
+	                verticalAlign: 'top',
+	                x: -10,
+	                y: 100,
+	                borderWidth: 0
+	            },
+	            series: [{
+	                name: 'Domain 1',
+	                data: y
+	            }]
+	        });
+	    });
+	};
+
 	// Query
 	$('#queryForm').bind('submit', function() {
 		var query = $(this).find('.query').val();
 
-
-		
 		//$('#embedWrapper').html('<a href="' + query + '"></a>')
 		//	.embedly({key: EMBED_KEY});
-		
+
 		$.get('http://api.embed.ly/1/oembed?key=' + EMBED_KEY + '&url=' + query, function(data) {
 			console.log(data);
 			if (data && data.thumbnail_url) {
@@ -45,67 +94,15 @@ $(function() {
 				}
 			}
 		});
-        
+
         getData(query,  function(data) {
-            alert(JSON.stringify(data));
+            graph_lines(data.x, data.y);
             return data;
         });
-		
+
 		return false;
 	});
 });
-
-
-
-function initBubbles() {
-	var r = 960,
-	    format = d3.format(",d"),
-	    fill = d3.scale.category20c();
-	
-	var bubble = d3.layout.pack()
-	    .sort(null)
-	    .size([r, r])
-	    .padding(1.5);
-	
-	var vis = d3.select("#chart").append("svg")
-	    .attr("width", r)
-	    .attr("height", r)
-	    .attr("class", "bubble");
-	
-	d3.json("/static/flare.json", function(json) {
-	  var node = vis.selectAll("g.node")
-	      .data(bubble.nodes(classes(json))
-	      .filter(function(d) { return !d.children; }))
-	    .enter().append("g")
-	      .attr("class", "node")
-	      .attr("transform", function(d) { return "translate(" + d.x + "," + d.y + ")"; });
-	
-	  node.append("title")
-	      .text(function(d) { return d.className + ": " + format(d.value); });
-	
-	  node.append("circle")
-	      .attr("r", function(d) { return d.r; })
-	      .style("fill", function(d) { return fill(d.packageName); });
-	
-	  node.append("text")
-	      .attr("text-anchor", "middle")
-	      .attr("dy", ".3em")
-	      .text(function(d) { return d.className.substring(0, d.r / 3); });
-	});
-	
-	// Returns a flattened hierarchy containing all leaf nodes under the root.
-	function classes(root) {
-	  var classes = [];
-	
-	  function recurse(name, node) {
-	    if (node.children) node.children.forEach(function(child) { recurse(node.name, child); });
-	    else classes.push({packageName: name, className: node.name, value: node.size});
-	  }
-	
-	  recurse(null, root);
-	  return {children: classes};
-	}
-}
 
 function getData(url, fn) {
     $.getJSON('/data/' + encodeURIComponent(url), fn);
