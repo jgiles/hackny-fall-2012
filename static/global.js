@@ -1,5 +1,4 @@
 var EMBED_KEY = 'd8c645e9b9d643b49d1e0ccb3f66e89e';
-var theData = {};
 
 $(function() {
 	// Prefill the Query with Gangnam style
@@ -21,11 +20,10 @@ $(function() {
 
         getData(query,  function(data) {
         	console.log(data);
-            theData = data;
+        
             graph_lines(data.x, data.y);
-            circles(theData.referrers, data.x[0]);
+            circles([]);
             graph_lines(data);
-            
             return data;
         });
 
@@ -82,11 +80,7 @@ function graph_lines(data) {
 	        },
 	        tooltip: {
 	            formatter: function() {
-	            	//console.log(this);
-	            	console.log(theData);
-	            	if (theData.referrers) {
-		            	circles(theData.referrers, this.key);
-		            }
+	            	circles();
 	            	var day = new Date(0);
 	            	day.setUTCSeconds(this.x);
 	              	return '<b>'+ Math.round(this.y) +' Clicks</b><br/>'
@@ -116,35 +110,52 @@ function graph_lines(data) {
 }	
 
 // Prints equally spaced circles with proportional size
-function circles(obj, t) {
+function circles(arr) {
+
+	// Make test data
+	arr = [
+		{
+			name: 'Facebook',
+			p: Math.random() // .46
+		},
+		{
+			name: 'Twitter',
+			p: Math.random() //.2
+		},
+		{
+			name: 'Tumblr',
+			p: Math.random() //.2
+		},
+		{
+			name: 'YouTube',
+			p: Math.random() //.14
+		}
+	];
+
 	var maxRadius = 75;
 	var containerWidth = $('#container').width() * 0.66; // Graph width * ratio
-	var circleWidth = containerWidth / obj.length;
+	var circleWidth = containerWidth / arr.length;
 	var circleHtml = $(document.createElement('div'));
-	
-	var i = (t - theData.x[0]) / (60 * 60 * 24);
-	
-	console.log(obj);
-	
-	for (var key in obj) {
-		var p = obj[key][i];
-		
+
+	for (var i = 0; i < arr.length; i++) {
+		var a = arr[i];
+
 		// Add circle
 		var circle = $(document.createElement('div'));
-		var height = p * 2 * maxRadius;
+		var height = a.p * 2 * maxRadius;
 		circle.css({
 			marginLeft: i > 0 ? circleWidth : 0,
 			verticalAlign: 'middle',
 			display: 'inline-block',
 			height: height,
 			borderRadius: height / 2,
-			background: getDomainColor(key),
+			background: getDomainColor(a.name),
 			width: height,
 			position: 'relative'
 		});
 		circle.addClass('shadow');
 		circleHtml.append(circle);
-		
+
 		// Add domain name
 		var domainName = $(document.createElement('p'));
 		domainName.css({
@@ -157,28 +168,29 @@ function circles(obj, t) {
 			top: -20,
 			fontWeight: 'bold',
 			color: '#fff'
-		}).html(key);
+		}).html(a.name);
 		circle.append(domainName);
 	}
-	
+
 	$('#circles').html(circleHtml.html());
 }
 
 function getDomainColor(name) {
 	name = name.toLowerCase();
-	if (/facebook/.test(name)) {
-		return '#3b5a9b';
-	}
-	else if (/twitter/.test(name)) {
-		return '#36c8f9';
-	}
-	else if (/tumblr/.test(name)) {
-		return '#32506a';
-	}
-	else if (/youtube/.test(name)) {
-		return '#ee3537';
-	}
-	else {			
-		return '#d7d7d7';
+	switch (name) {
+		case 'facebook':
+			return '#3b5a9b';
+			break;
+		case 'twitter':
+			return '#36c8f9';
+			break;
+		case 'tumblr':
+			return '#32506a';
+			break;
+		case 'youtube':
+			return '#ee3537';
+			break
+		default:
+			return '#d7d7d7';
 	}
 }
