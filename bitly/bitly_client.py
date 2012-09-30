@@ -58,6 +58,33 @@ def getUrlClickHistory(link, unit=None, units=None, limit=None, unit_reference_t
 	data = response.read()
 	return data
 
+def getURLCountryReferrers(bitly_link, unit=None, units=None, limit=None, unit_reference_ts=None):
+	connection = httplib.HTTPSConnection("api-ssl.bitly.com")
+	get_param_dict = {
+						"access_token" : BITLY_ACCESS_TOKEN,
+						"link" : bitly_link,
+						}
+	if (unit):
+		print unit
+		get_param_dict.update({"unit" : unit})
+	if (units):
+		print units
+		get_param_dict.update({"units" : units})
+	if (limit):
+		get_param_dict.update({"limit" : limit})
+	if (unit_reference_ts):
+		get_param_dict.update({"unit_reference_ts" : units})
+
+	get_param_string = urllib.urlencode(get_param_dict)
+
+	connection.request("GET", "/v3/link/countries?%s" % get_param_string)
+	response = connection.getresponse()
+	data = response.read()
+	return data
+	
+	
+	
+	
 short_url = getBitlyShortURL('http://www.youtube.com/watch?v=9bZkp7q19f0')
 #print short_url
 #data = getUrlClickHistory(short_url, unit="minute", units=60)
@@ -66,5 +93,11 @@ short_url = getBitlyShortURL('http://www.youtube.com/watch?v=9bZkp7q19f0')
 #print data
 #data = getUrlClickHistory(short_url, unit="week", units=1000)
 #print data
-long_url = getCanonicalURL(short_url)
-print long_url
+#long_url = getCanonicalURL(short_url)
+#print long_url
+#data = getURLCountryReferrers(short_url, unit="minute", units=2)
+#print data
+#data = getURLCountryReferrers(short_url, unit="hour", units=2)
+#print data
+#data = getURLCountryReferrers(short_url, unit="week", units=2)
+#print data
