@@ -79,9 +79,6 @@ h1 {
 	border-radius: 3px;
 }
 
-#embedWrapper {
-	text-align: center;
-}
 
 .query {
 	margin-top: 8px;
@@ -101,6 +98,8 @@ h1 {
 	text-align: center;
 	
 	margin-left: -215px;
+	
+	outline: none;
 }
 
 .shadow {
@@ -109,33 +108,14 @@ h1 {
    box-shadow:         0px 0px 1px 1px #292929;	
 }
 
-.timeline {
-   background: #656565;
-   position: absolute;
-   left: 42px;
-   top: 0;
-   height: 100%;
-   width: 63px;
+#circles {
+	position: relative;
+	margin-top: 30px;
+	height: 150px;
+	text-align: center;
 }
 
-.timeline .slider {
-   position: absolute;
-   top: 50px;
-   margin-left: -18px;
-}
-
-.timeline ul {
-   list-style: none;
-   margin-top: 260px;
-}
-
-.timeline ul li {
-   display: block;
-   color: #FFF;
-   width: 63px;
-   margin-left: 11px;
-   padding-top: 17px;
-   padding-bottom: 17px;
-   font-family:Helvetica,sans-serif;
-   cursor: pointer;
+#container {
+	width: 75%;
+	position: relative;
 }
