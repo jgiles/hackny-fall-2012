@@ -51,7 +51,7 @@ function graph_lines(data) {
 	            }
 	        },
 	        title: {
-	        	text: 'Link Clicks'
+	        	text: 'Link Clicks through Time'
 	        },
 	        /* title: {
 	            text: 'Title',
@@ -124,7 +124,7 @@ function circles(obj, t) {
 	}
 
 	var maxRadius = 75;
-	var containerWidth = $('#container').width() * 0.66; // Graph width * ratio
+	var containerWidth = $('#container').width() * 1.2; // Graph width * ratio
 	var circleWidth = containerWidth / arr.length;
 	var circleHtml = $(document.createElement('div'));
 
@@ -132,9 +132,9 @@ function circles(obj, t) {
 		var a = arr[i];
 
 		// Add a break if this is the 4th array element
-		if (i == 4) {
-			circleHtml.append('<br />');
-		}
+		//if (i == 4) {
+		//	circleHtml.append('<br />');
+		//}
 
 		// Add circle
 		var circle = $(document.createElement('div'));
@@ -152,6 +152,9 @@ function circles(obj, t) {
 			width: height,
 			position: 'relative'
 		});
+		if (i == 5) {
+			circle.hide();
+		}
 		circle.addClass('shadow');
 		circleHtml.append(circle);
 
@@ -166,8 +169,11 @@ function circles(obj, t) {
 			width: circleWidth,
 			top: -20,
 			fontWeight: 'bold',
-			color: '#fff'
+			color: 'black'
 		}).html(a.name);
+		if (i == 5) {
+			domainName.hide();
+		}
 		circle.append(domainName);
 	}
 
@@ -180,7 +186,7 @@ function getDomainColor(name) {
 	if (/facebook/.test(name)) {
 		return '#3b5a9b';
 	}
-	else if (/twitter/.test(name)) {
+	else if (/twitter/.test(name) || /t.co/.test(name)) {
 		return '#36c8f9';
 	}
 	else if (/tumblr/.test(name)) {
