@@ -32,7 +32,7 @@ def data(memeurl):
     time.reverse()
     clicks.reverse()
 
-    top = 10
+    top = 6
     if len(refs) < top:
         top = len(refs)
     featured = {}
