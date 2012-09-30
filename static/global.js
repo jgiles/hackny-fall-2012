@@ -1,4 +1,5 @@
 var EMBED_KEY = 'd8c645e9b9d643b49d1e0ccb3f66e89e';
+var theData = {};
 
 $(function() {
 	// Prefill the Query with Gangnam style
@@ -24,6 +25,9 @@ $(function() {
             graph_lines(data.x, data.y);
             circles([]);
             graph_lines(data);
+            
+            theData = data;
+            
             return data;
         });
 
@@ -79,8 +83,10 @@ function graph_lines(data) {
 	            }]
 	        },
 	        tooltip: {
-	            formatter: function() {
-	            	circles();
+	            formatter: function(a) {
+	            	if (theData.referrers) {
+		            	circles(theData.referrers, this.point.config);
+		            }
 	            	var day = new Date(0);
 	            	day.setUTCSeconds(this.x);
 	              	return '<b>'+ Math.round(this.y) +' Clicks</b><br/>'
@@ -110,46 +116,31 @@ function graph_lines(data) {
 }	
 
 // Prints equally spaced circles with proportional size
-function circles(arr) {
+function circles(obj, i) {
+	for (var key in obj) {
+	}
 	
-	// Make test data
-	arr = [
-		{
-			name: 'Facebook',
-			p: Math.random() // .46
-		},
-		{
-			name: 'Twitter',
-			p: Math.random() //.2
-		},
-		{
-			name: 'Tumblr',
-			p: Math.random() //.2
-		},
-		{
-			name: 'YouTube',
-			p: Math.random() //.14
-		}
-	];
+	// Make test da
 	
 	var maxRadius = 75;
 	var containerWidth = $('#container').width() * 0.66; // Graph width * ratio
-	var circleWidth = containerWidth / arr.length;
+	var circleWidth = containerWidth / obj.length;
 	var circleHtml = $(document.createElement('div'));
 	
-	for (var i = 0; i < arr.length; i++) {
-		var a = arr[i];
+	for (var key in obj) {
+		var p = obj[key][i];
+		console.log(p);
 		
 		// Add circle
 		var circle = $(document.createElement('div'));
-		var height = a.p * 2 * maxRadius;
+		var height = p * 2 * maxRadius;
 		circle.css({
 			marginLeft: i > 0 ? circleWidth : 0,
 			verticalAlign: 'middle',
 			display: 'inline-block',
 			height: height,
 			borderRadius: height / 2,
-			background: getDomainColor(a.name),
+			background: getDomainColor(key),
 			width: height,
 			position: 'relative'
 		});
@@ -168,7 +159,7 @@ function circles(arr) {
 			top: -20,
 			fontWeight: 'bold',
 			color: '#fff'
-		}).html(a.name);
+		}).html(key);
 		circle.append(domainName);
 	}
 	
@@ -177,20 +168,19 @@ function circles(arr) {
 
 function getDomainColor(name) {
 	name = name.toLowerCase();
-	switch (name) {
-		case 'facebook':
-			return '#3b5a9b';
-			break;
-		case 'twitter':
-			return '#36c8f9';
-			break;
-		case 'tumblr':
-			return '#32506a';
-			break;
-		case 'youtube':
-			return '#ee3537';
-			break
-		default:
-			return '#d7d7d7';
+	if (/facebook/.test(name)) {
+		return '#3b5a9b';
+	}
+	else if (/twitter/.test(name)) {
+		return '#36c8f9';
+	}
+	else if (/tumblr/.test(name)) {
+		return '#32506a';
+	}
+	else if (/youtube/.test(name)) {
+		return '#ee3537';
+	}
+	else {			
+		return '#d7d7d7';
 	}
 }
