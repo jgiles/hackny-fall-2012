@@ -85,7 +85,7 @@ def getURLClickHistory(bitly_url, unit=None, units=None, limit=None, unit_refere
 
 	connection.request("GET", "/v3/link/clicks?%s" % get_param_string)
 	response = connection.getresponse()
-	data = response.read()
+	data = json.loads(response.read())
 	return data
 
 # getURLCountryReferrers: bitly_url --> dict of clicks by country

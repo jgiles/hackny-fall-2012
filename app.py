@@ -10,10 +10,18 @@ def index():
     return render_template('template.html')
 
 @app.route('/data/<path:memeurl>')
-def josh(memeurl):
+def data(memeurl):
     shortlink = getBitlyShortURL(memeurl)
-    history = getURLClickHistory(shortlink, unit='day', units=10)
-    return Response(dumps(history), mimetype='application/json')
+    
+    history = getURLClickHistory(shortlink, unit='day', units=100)
+    
+    clicks = []
+    time = []
+    for clickdata in history['data']['link_clicks']:
+        clicks.append(clickdata['clicks'])
+        time.append(clickdata['dt'])
+
+    return Response(dumps({'x':time, 'y':clicks}), mimetype='application/json')
 
 if __name__ == '__main__':
     # Bind to PORT if defined, otherwise default to 5000.
