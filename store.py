@@ -42,8 +42,10 @@ def unescape_periods(key):
 def store_records(url, refs):
     clean_refs = {}
     for domain in refs:
-        clean_refs[escape_periods(domain)] = refs[domain].reverse()
+        clean_refs[escape_periods(domain)] = refs[domain]
+        clean_refs[escape_periods(domain)].reverse()
     doc = {'domain':url, 'referrals':clean_refs}
+    print doc
     coll = get_collection()
     coll.insert(doc)
 
@@ -54,7 +56,3 @@ def recall_records(url):
     for clean_domain in clean_refs:
         refs[unescape_periods(clean_domain)] = clean_refs[clean_domain]
     return refs
-
-
-
-            
