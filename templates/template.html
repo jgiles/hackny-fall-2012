@@ -6,13 +6,19 @@
   <script src="{{url_for('static', filename='global.js') }}"></script>
 </head>
 <body>
-    <h1>MEME PATH</h1>
+	<div class="top">
+    	<h1>MEME PATH</h1>
+    	<form id="queryForm">
+    		<input class="query rounded" type="text" name="query" />
+    		<input class="hidden" type="submit" />
+    	</form>
+    </div>
     <div class="timeline shadow">
         <img class="slider" src="{{url_for('static', filename='timelineSlider.png') }}" />
-	<ul>
-	  <li>Dec 3</li>
-	  <li>Dec 2</li>
-	  <li>Dec 1</li>
-	</ul>
+		<ul>
+		  <li>Dec 3</li>
+		  <li>Dec 2</li>
+		  <li>Dec 1</li>
+		</ul>
     </div>
 </body>
