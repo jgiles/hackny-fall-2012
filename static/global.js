@@ -42,16 +42,16 @@ $(function() {
 				}
 			}
 		});
+        
+        getData(query,  function(data) {
+            alert(JSON.stringify(data));
+            return data;
+        });
 		
 		return false;
 	});
 });
 
-function getData(url) {
-    alert(url);
-    alert(encodeURIComponent(url));
-    $.getJSON('/data/' + encodeURIComponent(url), function(data) {
-        alert(JSON.stringify(data));
-        return data;
-    });
+function getData(url, fn) {
+    $.getJSON('/data/' + encodeURIComponent(url), fn);
 }
