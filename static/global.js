@@ -21,12 +21,10 @@ $(function() {
 
         getData(query,  function(data) {
         	console.log(data);
-        
-            graph_lines(data.x, data.y);
-            circles([]);
-            graph_lines(data);
-            
             theData = data;
+            graph_lines(data.x, data.y);
+            circles(theData.referrers, data.x[0]);
+            graph_lines(data);
             
             return data;
         });
@@ -83,9 +81,11 @@ function graph_lines(data) {
 	            }]
 	        },
 	        tooltip: {
-	            formatter: function(a) {
+	            formatter: function() {
+	            	//console.log(this);
+	            	console.log(theData);
 	            	if (theData.referrers) {
-		            	circles(theData.referrers, this.point.config);
+		            	circles(theData.referrers, this.key);
 		            }
 	            	var day = new Date(0);
 	            	day.setUTCSeconds(this.x);
@@ -116,20 +116,18 @@ function graph_lines(data) {
 }	
 
 // Prints equally spaced circles with proportional size
-function circles(obj, i) {
-	for (var key in obj) {
-	}
-	
-	// Make test da
-	
+function circles(obj, t) {
 	var maxRadius = 75;
 	var containerWidth = $('#container').width() * 0.66; // Graph width * ratio
 	var circleWidth = containerWidth / obj.length;
 	var circleHtml = $(document.createElement('div'));
 	
+	var i = (t - theData.x[0]) / (60 * 60 * 24);
+	
+	console.log(obj);
+	
 	for (var key in obj) {
 		var p = obj[key][i];
-		console.log(p);
 		
 		// Add circle
 		var circle = $(document.createElement('div'));
