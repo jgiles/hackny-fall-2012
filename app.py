@@ -18,7 +18,7 @@ def data(memeurl):
     created = getBitlyCreated(rep['hash'], rep['short_url'])
     history = getURLClickHistory(rep['short_url'], unit='day', units=units)
     referrals = getReferringDomains(rep['short_url'], unit='day', units=units)
-    # return Response(dumps(referrals), mimetype = 'application/json')
+    return Response(dumps(referrals, indent=4), mimetype = 'application/json')
     clicks = []
     time = []
     z = []
@@ -29,7 +29,7 @@ def data(memeurl):
         time.append(clickdata['dt'])
         z.append(clickdata['clicks']*(.8 + .4*random()))
 
-    return Response(dumps({'x':time, 'y':clicks, 'z':z, 'created':created}), mimetype='application/json')
+    return Response(dumps({'x':time.reverse(), 'y':clicks.reverse(), 'z':z.reverse(), 'created':created}), mimetype='application/json')
 
 if __name__ == '__main__':
     # Bind to PORT if defined, otherwise default to 5000.
