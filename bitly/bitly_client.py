@@ -7,6 +7,8 @@ import sys
 import bitly_api
 import httplib
 import urllib
+import ast
+import json
 
 BITLY_DOMAIN = 'https://api-ssl.bitly.com/'
 BITLY_API_USERNAME = 'santhoshbala'
@@ -17,6 +19,9 @@ BITLY_ACCESS_TOKEN = '62eb874c179af79fd631b254edc163c701dac002'
 
 # getBitlyGlobalHash: long_url --> bitly global hash
 def getBitlyGlobalHash(long_url):
+	if "http://" not in long_url:
+		if "https://" not in long_url:
+			long_url = "http://" + long_url
 	bitly = bitly_api.Connection(BITLY_API_USERNAME, BITLY_API_KEY)
 	short_url_data = bitly.shorten(long_url)
 	short_url = short_url_data['global_hash']
@@ -24,6 +29,9 @@ def getBitlyGlobalHash(long_url):
 
 # getBitlyShortURL: long_url --> bitly short URL (with global hash)
 def getBitlyShortURL(long_url):
+	if "http://" not in long_url:
+		if "https://" not in long_url:
+			long_url = "http://" + long_url
 	bitlyHash = getBitlyGlobalHash(long_url)
 	short_url = "http://bit.ly/%s" % bitlyHash  
 	return short_url
@@ -34,6 +42,24 @@ def getCanonicalURL(bitly_url):
 	canonical_url_data = bitly.expand(shortUrl=bitly_url)
 	canonical_url = canonical_url_data[0]['long_url']
 	return canonical_url
+
+# getBitlyCreated: bitly_url --> dictionary of total click history
+def getBitlyCreated(bitly_hash, bitly_url):
+	connection = httplib.HTTPSConnection("api-ssl.bitly.com")
+	get_param_dict = {
+						"access_token" : BITLY_ACCESS_TOKEN,
+						"shortUrl" : bitly_url,
+						"hash" : bitly_hash
+						}
+
+	get_param_string = urllib.urlencode(get_param_dict)
+
+	connection.request("GET", "/v3/info?%s" % get_param_string)
+	response = connection.getresponse()
+	data = response.read()
+	data_dict = json.loads(data)
+	created_at = data_dict["data"]["info"][0]['created_at']
+	return data
 
 # getUrlClickHistory: bitly_url --> dictionary of total click history
 def getURLClickHistory(bitly_url, unit=None, units=None, limit=None, unit_reference_ts=None):
@@ -141,7 +167,8 @@ def getReferringDomains(bitly_url, unit=None, units=None, limit=None, unit_refer
 	return data
 	
 	
-short_url = getBitlyShortURL('http://www.youtube.com/watch?v=9bZkp7q19f0')
+#short_url = getBitlyShortURL('www.youtube.com/watch?v=9bZkp7q19f0')
+#bitly_hash = getBitlyGlobalHash('www.youtube.com/watch?v=9bZkp7q19f0')
 #print short_url
 #data = getUrlClickHistory(short_url, unit="minute", units=60)
 #print data
