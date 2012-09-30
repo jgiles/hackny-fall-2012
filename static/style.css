@@ -121,7 +121,7 @@ h1 {
 
 #circles {
 	position: relative;
-	margin-top: 30px;
+	margin-top: 10px;
 	height: 150px;
 	text-align: center;
 }
@@ -129,6 +129,8 @@ h1 {
 #container {
 	width: 75%;
 	position: relative;
+	padding-top: 180px;
+	padding-bottom: 50px;
 }
 
 #mainColumn {

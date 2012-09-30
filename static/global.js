@@ -131,13 +131,21 @@ function circles(obj, t) {
 	for (var i = 0; i < arr.length; i++) {
 		var a = arr[i];
 
+		// Add a break if this is the 4th array element
+		if (i == 4) {
+			circleHtml.append('<br />');
+		}
+
 		// Add circle
 		var circle = $(document.createElement('div'));
 		var height = a.p * 2 * maxRadius;
+		var padding = (maxRadius * 2 - height) / 2;
 		circle.css({
 			marginLeft: i > 0 ? circleWidth : 0,
 			verticalAlign: 'middle',
 			display: 'inline-block',
+			marginTop: padding,
+			marginBottom: padding,
 			height: height,
 			borderRadius: height / 2,
 			background: getDomainColor(a.name),
