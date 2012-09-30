@@ -153,3 +153,6 @@ LOGGING = {
         },
     }
 }
+
+## API KEYS
+BITLY_API_KEY = 'R_0859e5a80d970b6b59e9e76acfa997b0'
