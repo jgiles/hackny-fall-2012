@@ -18,8 +18,10 @@ def get_referrer_records(url, units=10):
         result = getReferringDomains(rep['short_url'], unit=unit, units=i)
         referrers = result['data']['referring_domains']
         for ref in referrers:
-            print ref
-            domain = ref['domain']
+            try:
+                domain = ref['domain']
+            except:
+                continue
             try:
                 stats = domains[domain]
             except:
