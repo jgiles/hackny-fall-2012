@@ -1,11 +1,16 @@
 <!doctype html>
 <title>MEME PATH</title>
 <head>
-  	<link rel=stylesheet type=text/css href="{{url_for('static', filename='style.css') }}">  
+  	<link rel=stylesheet type=text/css href="{{url_for('static', filename='style.css') }}">
+  	
   	<script src="http://code.jquery.com/jquery-1.7.2.min.js"></script>
   	<script src="http://scripts.embed.ly/jquery.embedly.min.js"></script>
+  	
   	<script src="{{url_for('static', filename='global.js') }}"></script>
-  	<script src="{{url_for('static', filename='d3.v2.min.js') }}"></script>
+  	
+    <script src="http://code.highcharts.com/highcharts.js"></script>
+    <script src="http://code.highcharts.com/modules/exporting.js"></script>
+
 </head>
 <body>
 	<div class="top">
@@ -14,18 +19,6 @@
     		<input class="query rounded" type="text" name="query" />
     		<input class="hidden" type="submit" />
     	</form>
-    	<div id="embedWrapper">
-    		<div id="embedHtml"></div>
-	    	<img id="embedPic" />
-	    </div>
     </div>
-    <div id="chart"></div>
-    <div class="timeline shadow">
-        <img class="slider" src="{{url_for('static', filename='timelineSlider.png') }}" />
-		<ul>
-		  <li>Dec 3</li>
-		  <li>Dec 2</li>
-		  <li>Dec 1</li>
-		</ul>
-    </div>
+    <div id="container" style="min-width: 400px; height: 400px; margin: 0 auto"></div>
 </body>
