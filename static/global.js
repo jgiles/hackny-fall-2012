@@ -42,8 +42,11 @@ function graph_lines(data) {
 	            type: 'line',
 	            marginRight: 20,
 	            marginBottom: 25,
-	            //backgroundColor: '#000',
+	            backgroundColor: '#000',
 	            //plotBorderColor: '#fff'
+	            style: {
+	            	opacity: '0.8'
+	            }
 	        },
 	        title: {
 	        	text: 'Link Clicks'
@@ -75,8 +78,8 @@ function graph_lines(data) {
 	        },
 	        tooltip: {
 	            formatter: function() {
-	                    return '<b>'+ this.series.name +'</b><br/>'+
-	                    this.x +': '+ this.y +'°C';
+	              	return '<b>'+ Math.round(this.y) +' Clicks</b><br/>'
+	              		+ ' on ' + this.x;
 	            },
 	            crosshairs: true
 	        },
