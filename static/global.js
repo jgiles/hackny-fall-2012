@@ -1,24 +1,6 @@
 var EMBED_KEY = 'd8c645e9b9d643b49d1e0ccb3f66e89e';
 
 $(function() {
-	// Timeline
-	var topDiff = 3;
-
-	// Move to first day
-    var firstEl = $('.timeline li:first');
-    $('.timeline .slider').css('top', firstEl.position().top - topDiff);
-
-	// Move to clicked day
-	$('.timeline li').bind('click', function() {
-		console.log("test");
-   		var el = $(this);
-   		$('.timeline .slider').animate({
-	   		top: el.position().top - topDiff
-   		}, 350, function() {
-      		// Animation complete
- 	  	});
-	});
-	
 	// Prefill the Query with Gangnam style
 	$('#queryForm .query').val('http://www.youtube.com/watch?v=9bZkp7q19f0');
 	
@@ -47,8 +29,6 @@ function getData(url, fn) {
 }
 
 function graph_lines(x, y) {
-	console.log(x);
-	console.log(y);
 	var chart;
 	$(document).ready(function() {
 	    chart = new Highcharts.Chart({
