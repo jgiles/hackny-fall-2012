@@ -40,11 +40,18 @@ def data(memeurl):
     ceiling = 0
     for i in range(0, top):
         ref = refs[i]
-        featured[ref['domain']] = records[ref['domain']][-len(clicks):]
+        try:
+            featured[ref['domain']] = records[ref['domain']][-len(clicks):]
+        except:
+            continue
         
     for feat in featured:
         for i in range(0, len(featured[feat])):
-            featured[feat][i] = featured[feat][i]/clicks[i]
+            try:
+                ratio = featured[feat][i]/clicks[i]
+            except:
+                ratio = 0
+            featured[feat][i] = ratio
 
     return Response(dumps({'x':time, 'y':clicks, 'referrers':featured, 'created':created}), mimetype='application/json')
 
