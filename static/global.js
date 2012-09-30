@@ -1,4 +1,5 @@
 var EMBED_KEY = 'd8c645e9b9d643b49d1e0ccb3f66e89e';
+var theData = {};
 
 $(function() {
 	// Prefill the Query with Gangnam style
@@ -20,9 +21,8 @@ $(function() {
 
         getData(query,  function(data) {
         	console.log(data);
-        
-            graph_lines(data.x, data.y);
-            circles([]);
+        	theData = data;
+            circles(data.referrers, data.x[0]);
             graph_lines(data);
             return data;
         });
@@ -80,7 +80,7 @@ function graph_lines(data) {
 	        },
 	        tooltip: {
 	            formatter: function() {
-	            	circles();
+	            	circles(theData.referrers, this.key);
 	            	var day = new Date(0);
 	            	day.setUTCSeconds(this.x);
 	              	return '<b>'+ Math.round(this.y) +' Clicks</b><br/>'
@@ -110,27 +110,18 @@ function graph_lines(data) {
 }	
 
 // Prints equally spaced circles with proportional size
-function circles(arr) {
+function circles(obj, t) {
 
-	// Make test data
-	arr = [
-		{
-			name: 'Facebook',
-			p: Math.random() // .46
-		},
-		{
-			name: 'Twitter',
-			p: Math.random() //.2
-		},
-		{
-			name: 'Tumblr',
-			p: Math.random() //.2
-		},
-		{
-			name: 'YouTube',
-			p: Math.random() //.14
+	// Format object into array
+	arr = [];
+	var i = 0;
+	t = (t - theData.x[0]) / (60 * 60 * 24); // Current index
+	for (var key in obj) {
+		arr[i++] = {
+			name: key,
+			p: obj[key][t]
 		}
-	];
+	}
 
 	var maxRadius = 75;
 	var containerWidth = $('#container').width() * 0.66; // Graph width * ratio
@@ -140,13 +131,21 @@ function circles(arr) {
 	for (var i = 0; i < arr.length; i++) {
 		var a = arr[i];
 
+		// Add a break if this is the 4th array element
+		if (i == 4) {
+			circleHtml.append('<br />');
+		}
+
 		// Add circle
 		var circle = $(document.createElement('div'));
 		var height = a.p * 2 * maxRadius;
+		var padding = (maxRadius * 2 - height) / 2;
 		circle.css({
 			marginLeft: i > 0 ? circleWidth : 0,
 			verticalAlign: 'middle',
 			display: 'inline-block',
+			marginTop: padding,
+			marginBottom: padding,
 			height: height,
 			borderRadius: height / 2,
 			background: getDomainColor(a.name),
@@ -176,21 +175,21 @@ function circles(arr) {
 }
 
 function getDomainColor(name) {
+	console.log(name);
 	name = name.toLowerCase();
-	switch (name) {
-		case 'facebook':
-			return '#3b5a9b';
-			break;
-		case 'twitter':
-			return '#36c8f9';
-			break;
-		case 'tumblr':
-			return '#32506a';
-			break;
-		case 'youtube':
-			return '#ee3537';
-			break
-		default:
-			return '#d7d7d7';
+	if (/facebook/.test(name)) {
+		return '#3b5a9b';
+	}
+	else if (/twitter/.test(name)) {
+		return '#36c8f9';
+	}
+	else if (/tumblr/.test(name)) {
+		return '#32506a';
+	}
+	else if (/youtube/.test(name)) {
+		return '#ee3537';
+	}
+	else {
+		return '#d7d7d7';
 	}
 }
