@@ -1,0 +1,47 @@
+body {
+     background: #424242 url('/static/bg.png') repeat center; 
+}
+
+h1 {
+   font-family:"Impact",Helvetica,sans-serif;
+   font-size: 50px;
+   text-align: center;
+   color: #ffffff;
+}
+
+.shadow {
+   -moz-box-shadow:    0px 0px 1px 1px #292929;
+   -webkit-box-shadow: 0px 0px 1px 1px #292929;
+   box-shadow:         0px 0px 1px 1px #292929;	
+}
+
+.timeline {
+   background: #656565;
+   position: absolute;
+   left: 42px;
+   top: 0;
+   height: 100%;
+   width: 63px;
+}
+
+.timeline .slider {
+   position: absolute;
+   top: 50px;
+   margin-left: -18px;
+}
+
+.timeline ul {
+   list-style: none;
+   margin-top: 260px;
+}
+
+.timeline ul li {
+   display: block;
+   color: #FFF;
+   width: 63px;
+   margin-left: -29px;
+   padding-top: 17px;
+   padding-bottom: 17px;
+   font-family:Helvetica,sans-serif;
+   cursor: pointer;
+}
