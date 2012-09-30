@@ -1,7 +1,7 @@
 <!doctype html>
-<title>MEME PATH</title>
+<title>MemePath</title>
 <head>
-  	<link rel=stylesheet type=text/css href="{{url_for('static', filename='style.css') }}">
+  	<link rel="stylesheet" type="text/css" href="{{url_for('static', filename='style.css') }}">
   	
   	<script src="http://code.jquery.com/jquery-1.7.2.min.js"></script>
   	<script src="http://scripts.embed.ly/jquery.embedly.min.js"></script>
@@ -11,15 +11,24 @@
     <script src="http://code.highcharts.com/highcharts.js"></script>
     <script src="http://code.highcharts.com/modules/exporting.js"></script>
 
+	<link rel="stylesheet" type="text/css" href="{{url_for('static', filename='MyFontsWebfontsKit/MyFontsWebfontsKit.css') }}">
+
 </head>
 <body>
-	<div class="top">
-    	<h1>MEME PATH</h1>
-    	<form id="queryForm">
-    		<input class="query rounded" type="text" name="query" />
-    		<input class="hidden" type="submit" />
-    	</form>
-    </div>
-    <div id="circles"></div>
-    <div id="container" style="min-width: 400px; height: 400px; margin: 0 auto"></div>
+	<div id="top">
+		<div id="topCenter">
+	    	<h1>MemePath</h1>
+	    	<form id="queryForm">
+	    		<input class="query rounded" type="text" name="query" />
+	    		<input class="hidden" type="submit" />
+	    	</form>
+		</div>
+	</div>
+	<div id="mainColumn">
+	<div id="bottom">
+		<div id="preview"></div>
+	    <div id="circles"></div>
+	    <div id="container" style="min-width: 400px; height: 400px; margin: 0 auto"></div>
+	</div>
+	</div>
 </body>
