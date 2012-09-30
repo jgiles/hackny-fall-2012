@@ -12,7 +12,7 @@ def index():
 @app.route('/data/<path:memeurl>')
 def josh(memeurl):
     shortlink = getBitlyShortURL(memeurl)
-    history = getURLClickHistory(shortlink, unit='day', units=7)
+    history = getURLClickHistory(shortlink, unit='day', units=10)
     return Response(dumps(history), mimetype='application/json')
 
 if __name__ == '__main__':
